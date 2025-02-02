@@ -21,9 +21,7 @@ app.use(
 app.use(express.json());
 
 console.log(
-  `✨ Starting API Server: ${chalk.yellowBright(
-    `/${API_PREFIX}/${CURRENT_VERSION}`
-  )}`
+  `✨ Starting API Server: ${chalk.yellowBright(`(${CURRENT_VERSION})`)}`
 );
 
 // Dynamically load routes
