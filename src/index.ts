@@ -1,5 +1,4 @@
 import cors from "cors";
-import chalk from "chalk";
 import express from "express";
 import path from "path";
 import { config } from "dotenv";
@@ -20,9 +19,7 @@ app.use(
 );
 app.use(express.json());
 
-console.log(
-  `✨ Starting API Server: ${chalk.yellowBright(`(${CURRENT_VERSION})`)}`
-);
+console.log(`✨ Starting API Server: (${CURRENT_VERSION})`);
 
 // Dynamically load routes
 const routesPath = path.join(__dirname, "routes");
@@ -34,7 +31,7 @@ routeFiles.forEach((file) => {
   const routeName = file.split(".")[0];
   const router = require(path.join(routesPath, file)).default;
   app.use(`/${API_PREFIX}/${CURRENT_VERSION}/${routeName}`, router);
-  console.log(`📂 Route loaded: ${chalk.bgGray(`/${routeName}`)}`);
+  console.log(`📂 Route loaded: /${routeName}`);
 });
 
 app.get(
@@ -52,17 +49,13 @@ app.use(
     res: express.Response,
     _next: express.NextFunction
   ) => {
-    console.error(chalk.red("An error occurred: ", err.stack));
+    console.error("An error occurred: ", err.stack);
     res.status(500).json({ error: "Something went wrong" });
   }
 );
 
 app.listen(PORT, () => {
   console.log(
-    chalk.cyan(
-      `✨ Server online: ${chalk.greenBright(
-        `http://localhost:${PORT}/${API_PREFIX}/${CURRENT_VERSION}`
-      )}`
-    )
+    `✨ Server online: http://localhost:${PORT}/${API_PREFIX}/${CURRENT_VERSION}`
   );
 });
